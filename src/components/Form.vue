@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>漢字2文字を入れてください</p>
     <div class="level-item">
       <input class="input is-small" type="text" :value="msg" @change="onChangeInput">
     </div>
@@ -24,4 +25,3 @@ export default {
 }
 
 </script>
-

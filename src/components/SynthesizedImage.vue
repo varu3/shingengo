@@ -1,7 +1,7 @@
 <template>
-    <div>
-      <svg x="0px" y="0px" width="600px" height="450px" viewBox="0 0 600 450" enable-background="new 0 0 600 450">
-        <image id="image0" width="600" height="450" x="0" y="0" href=
+    <div id="synthesizedimage">
+      <svg refs="svgCard" x="0px" y="0px" width="600px" height="450px" viewBox="0 0 600 450" enable-background="new 0 0 600 450">
+      <image id="image0" width="600" height="450" x="0" y="0" href=
 "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABLAAAAOECAIAAAA+D1+tAAABTmlDQ1BpY2MAACiRY2BgUkksKMhh
 YWBgyM0rKQpyd1KIiIxSYH/IwA6EvAxiDAqJycUFjgEBPkAlDDAaFXy7xsAIoi/rgsw6JTW1SbVe
 wNdipvDVi69EmzDVowCulNTiZCD9B4hTkwuKShgYGFOAbOXykgIQuwPIFikCOgrIngNip0PYG0Ds
@@ -6504,7 +6504,7 @@ MTe/8xjQAAAAGnRFWHRpY2M6ZGVzY3JpcHRpb24ARGlzcGxheSBQM495u7wAAAAASUVORK5CYII=" />
       <text transform="translate(100 200)" 
               fill="black" 
               font-size="60" 
-              font-family="Sawarabi Mincho" 
+              style="font-family: 'Sawarabi Mincho';"
         >
         <tspan x="34" y="-20">{{ msg[0] }}</tspan>
         <tspan x="34" y="40">{{ msg[1] }}</tspan>
@@ -6514,7 +6514,28 @@ MTe/8xjQAAAAGnRFWHRpY2M6ZGVzY3JpcHRpb24ARGlzcGxheSBQM495u7wAAAAASUVORK5CYII=" />
 </template>
 
 <script>
+
 export default {
-  props: ['msg']
+  props: ['msg'],
+  methods: {
+    download() {
+      html2canvas(document.getElementById("synthesizedimage"))
+      .then(function(canvas){
+        let fname = "nengo.png"
+        let encdata = atob(canvas.toDataURL().replace(/^.*,/, ''))
+        let outdata = new Uint8Array(encdata.length);
+        for (var i = 0; i < encdata.length; i++) {
+			    outdata[i] = encdata.charCodeAt(i);
+		    }
+		    let blob = new Blob([outdata], ["image/png"]);
+
+        let anchor = document.createElement('a');
+        anchor.href = canvas.toDataURL()
+        anchor.download = fname
+        anchor.click();
+      })
+    }
+  }
 }
+
 </script>
